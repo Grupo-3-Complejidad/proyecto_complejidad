@@ -1,55 +1,171 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8" />
     <title>Mi primera aplicación Flask</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <!-- Botón para abrir el menú -->
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"></a>
-        <a href="#">Aseo de Hogar</a>
-        <a href="#">Bebidas</a>
-        <a href="#">Belleza</a>
-        <a href="#">Charcuteria</a>
-        <a href="#">Ropa y Calzado</a>
-        <a href="#">Ciudado Personal</a>
-        <a href="#">Lacteos y refrigerados</a>
-        <a href="#">Panaderia</a>
-        <a href="#">Vinos y Licores</a>
-    </div>
     
-    <div id="main">
-        <!-- Botón para abrir el menú -->
-        <button class="openbtn" onclick="openNav()">☰</button>
-    
-        <!-- Contenido principal de tu aplicación -->
-        <h1>Bienvenido a mi aplicación Flask</h1>
-    
-        <div class="card-container">
-            {% for producto in productos %}
-            <div class="card">
-                <img src="{{ producto[6] }}" alt="{{ producto[1] }}">
-                <h3>{{ producto[1] }}</h3>
-                <p>Código: {{ producto[0] }}</p>
-                <p>Precio: {{ producto[2] }}</p>
-                <!-- Agrega más campos de datos según sea necesario -->
-            </div>
-            {% endfor %}
+      <div class="sidebar">
+        <div class="logo-details">
+          <i class="bx bxl-c-plus-plus icon"></i>
+          <div class="logo_name">CodingLab</div>
+          <i class="bx bx-menu" id="btn"></i>
         </div>
-    </div>
+        <ul class="nav-list">
+           <li>
+            <a href="#">
+              <i class="bx bx-coffee-togo"></i>
+              <span class="links_name">Bebidas</span>
+            </a>
+            <span class="tooltip">Bebidas</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-happy-beaming"></i>
+              <span class="links_name">Belleza</span>
+            </a>
+            <span class="tooltip">Belleza</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-dish"></i>
+              <span class="links_name">Charcuteria</span>
+            </a>
+            <span class="tooltip">Charcuteria</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-gift"></i>
+              <span class="links_name">Ropa y Calzado</span>
+            </a>
+            <span class="tooltip">Ropa y Calzado</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-diamond"></i>
+              <span class="links_name">Ciudado Personal</span>
+            </a>
+            <span class="tooltip">Ciudado Personal</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-vial"></i>
+              <span class="links_name">Lacteos y refrigerados</span>
+            </a>
+            <span class="tooltip">Lacteos y refrigerados</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-baguette"></i>
+              <span class="links_name">Panaderia</span>
+            </a>
+            <span class="tooltip">Panaderia</span>
+          </li>
+          <li>
+            <a href="#">
+              <i class="bx bx-drink"></i>
+              <span class="links_name">Vinos y Licores</span>
+            </a>
+            <span class="tooltip">Vinos y Licores</span>
+          </li>
+          <li class="profile">
+            <div class="profile-details">
+              
+                <div class="name_job">
+                <div class="name">Prem Shahi</div>
+                <div class="job">Web designer</div>
+              </div>
+            </div>
+            <i class="bx bx-log-out" id="log_out"></i>
+          </li>
+        </ul>
+      </div>
+
+      <section class="home-section">
+        <div id="main">
+
+            <div class="input-container">
+                <i class="bx bx-search"></i>
+                <input type="text" id="search-input" placeholder="Search..." />
+            </div>  
+            <!-- Contenido principal de tu aplicación -->
+            <h1>Bienvenido a mi aplicación Flask</h1>
+        
+            <div class="card-container">
+                {% for producto in productos %}
+                <div class="card">
+                    <img src="{{ producto[6] }}" alt="{{ producto[1] }}">
+                    <h3>{{ producto[1] }}</h3>
+                    <p>Código: {{ producto[0] }}</p>
+                    <p>Precio: {{ producto[2] }}</p>
+                    <!-- Agrega más campos de datos según sea necesario -->
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+      </section>
+    
+    
     
     <script>
         /* Funciones para abrir y cerrar el menú */
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+        let searchBtn = document.querySelector(".bx-search");
+
+        closeBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("open");
+        menuBtnChange();//calling the function(optional)
+        });
+
+        searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+        sidebar.classList.toggle("open");
+        menuBtnChange(); //calling the function(optional)
+        });
+
+        // following are the code to change sidebar button(optional)
+        function menuBtnChange() {
+        if(sidebar.classList.contains("open")){
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+        }else {
+        closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
         }
-        
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft= "0";
         }
+
+        // Obtener el elemento de entrada de búsqueda
+        var searchInput = document.querySelector("#search-input");
+
+        // Escuchar el evento de cambio en el campo de búsqueda
+        searchInput.addEventListener("input", function() {
+        // Obtener el valor actual del campo de búsqueda
+        var searchText = searchInput.value.trim();
+
+        // Crear una nueva solicitud XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+
+        // Configurar la solicitud
+        xhr.open("GET", "/?query=" + encodeURIComponent(searchText), true);
+
+        // Manejar la respuesta de la solicitud
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            // Actualizar el contenido de la sección principal con los resultados filtrados
+            var mainSection = document.querySelector(".home-section #main");
+            mainSection.innerHTML = xhr.responseText;
+            } else {
+            console.error("Error al realizar la solicitud de búsqueda");
+            }
+        };
+
+        // Enviar la solicitud al servidor Flask
+        xhr.send();
+        });
+
+
     </script>
 </body>
 </html>
