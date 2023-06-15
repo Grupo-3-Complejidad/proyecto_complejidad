@@ -1,0 +1,113 @@
+.card {
+  background-color: #F0AC59;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: transform 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.card img:hover {
+  transform: translateY(-2px);
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  background-color: #FED89A;
+}
+
+/* Estilos para dispositivos de pantalla anchos */
+@media (min-width: 768px) {
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card {
+    width: calc(33.33% - 16px);
+    margin-right: 16px;
+  }
+  
+  /* Ajuste del margen derecho del último elemento en la fila */
+  .card:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+/* Estilos para dispositivos de pantalla más pequeños */
+@media (max-width: 767px) {
+  .card {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+/* estilos para sidebar */
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #f7f7f7;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #F0AC59;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Estilos para el botón de abrir el menú */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #f7f7f7;
+  color: #333;
+  padding: 10px 15px;
+  border: none;
+  position: fixed;
+  z-index: 1;
+  top: 25px;
+  left: 25px;
+  transition: background-color 0.3s;
+}
+
+.openbtn:hover {
+  background-color: #F0AC59;
+  color: #fff;
+}
+
+/* Estilos adicionales para ajustar el contenido cuando se abre el menú */
+#main {
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+
+/* Estilos de medios para dispositivos más pequeños */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 14px;}
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi primera aplicación Flask</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Botón para abrir el menú -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"></a>
+        <a href="#">Aseo de Hogar</a>
+        <a href="#">Bebidas</a>
+        <a href="#">Belleza</a>
+        <a href="#">Charcuteria</a>
+        <a href="#">Ropa y Calzado</a>
+        <a href="#">Ciudado Personal</a>
+        <a href="#">Lacteos y refrigerados</a>
+        <a href="#">Panaderia</a>
+        <a href="#">Vinos y Licores</a>
+    </div>
+    
+    <div id="main">
+        <!-- Botón para abrir el menú -->
+        <button class="openbtn" onclick="openNav()">☰</button>
+    
+        <!-- Contenido principal de tu aplicación -->
+        <h1>Bienvenido a mi aplicación Flask</h1>
+    
+        <div class="card-container">
+            {% for producto in productos %}
+            <div class="card">
+                <img src="{{ producto[6] }}" alt="{{ producto[1] }}">
+                <h3>{{ producto[1] }}</h3>
+                <p>Código: {{ producto[0] }}</p>
+                <p>Precio: {{ producto[2] }}</p>
+                <!-- Agrega más campos de datos según sea necesario -->
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <script>
+        /* Funciones para abrir y cerrar el menú */
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+        
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+        }
+    </script>
+</body>
+</html>
