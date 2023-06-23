@@ -17,70 +17,67 @@
         </div>
         <ul class="nav-list">
            <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Bebidas">
               <i class="bx bx-coffee-togo"></i>
               <span class="links_name">Bebidas</span>
             </a>
             <span class="tooltip">Bebidas</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Belleza">
               <i class="bx bx-happy-beaming"></i>
               <span class="links_name">Belleza</span>
             </a>
             <span class="tooltip">Belleza</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Charcuteria">
               <i class="bx bx-dish"></i>
               <span class="links_name">Charcuteria</span>
             </a>
             <span class="tooltip">Charcuteria</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Ropa y Calzado">
               <i class="bx bx-gift"></i>
               <span class="links_name">Ropa y Calzado</span>
             </a>
             <span class="tooltip">Ropa y Calzado</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Ciudado Personal">
               <i class="bx bx-diamond"></i>
               <span class="links_name">Ciudado Personal</span>
             </a>
             <span class="tooltip">Ciudado Personal</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Lacteos y refrigerados">
               <i class="bx bx-vial"></i>
               <span class="links_name">Lacteos y refrigerados</span>
             </a>
             <span class="tooltip">Lacteos y refrigerados</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Panaderia">
               <i class="bx bx-baguette"></i>
               <span class="links_name">Panaderia</span>
             </a>
             <span class="tooltip">Panaderia</span>
           </li>
           <li>
-            <a href="#">
+            <a href="#" class="category-link" data-category="Vinos y Licores">
               <i class="bx bx-drink"></i>
               <span class="links_name">Vinos y Licores</span>
             </a>
             <span class="tooltip">Vinos y Licores</span>
           </li>
-          <li class="profile">
-            <div class="profile-details">
-              
-                <div class="name_job">
-                <div class="name">Prem Shahi</div>
-                <div class="job">Web designer</div>
-              </div>
-            </div>
-            <i class="bx bx-log-out" id="log_out"></i>
+          <li>
+            <a href="#" class="category-link" data-category="Todos">
+              <i class="bx bx-drink"></i>
+              <span class="links_name">Todos</span>
+            </a>
+            <span class="tooltip">Todos</span>
           </li>
         </ul>
       </div>
@@ -97,11 +94,12 @@
         
             <div class="card-container">
                 {% for producto in productos %}
-                <div class="card">
+                <div class="card" data-category="{{ producto[4] }}">
                     <img src="{{ producto[6] }}" alt="{{ producto[1] }}">
                     <h3>{{ producto[1] }}</h3>
                     <p>Código: {{ producto[0] }}</p>
                     <p>Precio: {{ producto[2] }}</p>
+                    <a href="{{ url_for('recomendacion', producto_id=producto[0]) }}">Ver más</a>
                     <!-- Agrega más campos de datos según sea necesario -->
                 </div>
                 {% endfor %}
@@ -142,30 +140,49 @@
         // Escuchar el evento de cambio en el campo de búsqueda
         searchInput.addEventListener("input", function() {
         // Obtener el valor actual del campo de búsqueda
-        var searchText = searchInput.value.trim();
+        var searchText = searchInput.value.trim().toLowerCase();
 
-        // Crear una nueva solicitud XMLHttpRequest
-        var xhr = new XMLHttpRequest();
+            // Obtener todas las tarjetas de productos
+            var cards = document.querySelectorAll(".card");
 
-        // Configurar la solicitud
-        xhr.open("GET", "/?query=" + encodeURIComponent(searchText), true);
-
-        // Manejar la respuesta de la solicitud
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-            // Actualizar el contenido de la sección principal con los resultados filtrados
-            var mainSection = document.querySelector(".home-section #main");
-            mainSection.innerHTML = xhr.responseText;
-            } else {
-            console.error("Error al realizar la solicitud de búsqueda");
-            }
-        };
-
-        // Enviar la solicitud al servidor Flask
-        xhr.send();
+            // Mostrar o ocultar las tarjetas de productos según el texto de búsqueda
+            cards.forEach(function(card) {
+                var productName = card.querySelector("h3").textContent.toLowerCase();
+                if (productName.includes(searchText)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
         });
+
+  var categoryLinks = document.querySelectorAll(".category-link");
+
+// Agregar un controlador de eventos a cada enlace de categoría
+categoryLinks.forEach(function(link) {
+  link.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    // Obtener el nombre de la categoría del enlace seleccionado
+    var selectedCategory = link.dataset.category.toLowerCase();
+
+    // Obtener todas las tarjetas de productos
+    var cards = document.querySelectorAll(".card");
+
+    // Mostrar u ocultar las tarjetas de productos según la categoría seleccionada
+    cards.forEach(function(card) {
+      var cardCategory = card.dataset.category.toLowerCase();
+      if (selectedCategory === "todos" || cardCategory === selectedCategory) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+});
 
 
     </script>
 </body>
+
 </html>
