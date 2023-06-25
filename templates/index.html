@@ -89,6 +89,15 @@
                 <i class="bx bx-search"></i>
                 <input type="text" id="search-input" placeholder="Search..." />
             </div>  
+            <div class="input-container1">
+              <select name="brand" id="brand-select" multiple>
+                  <option value="">Todas las marcas</option>
+                  {% for brand in brands %}
+                  <option value="{{ brand }}">{{ brand }}</option>
+                  {% endfor %}
+              </select>
+              <button id="submit-button">Guardar Restricciones</button>
+          </div>
             <!-- Contenido principal de tu aplicación -->
             <h1>Bienvenido a mi aplicación Flask</h1>
         
@@ -107,7 +116,7 @@
         </div>
       </section>
     
-    
+      
     
     <script>
         /* Funciones para abrir y cerrar el menú */
@@ -180,8 +189,54 @@ categoryLinks.forEach(function(link) {
     });
   });
 });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    // Agregar checkboxes y eventos de cambio
+          $('#brand-select option').each(function() {
+              var checkbox = $('<input type="checkbox">');
+              var option = $(this);
+              option.prepend(checkbox);
 
+              checkbox.on('change', function() {
+                  option.prop('selected', $(this).is(':checked'));
+              });
+          });
 
+          // Agregar el campo de búsqueda y evento de cambio
+          var searchInput = $('<input type="text" id="brand-search" placeholder="Buscar marca">');
+          $('.input-container1').append(searchInput);
+
+          searchInput.on('keyup', function() {
+              var value = $(this).val().toLowerCase();
+              $('#brand-select option').filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+              });
+          });
+          $('#submit-button').on('click', function() {
+            // Obtener los valores seleccionados
+            var selectedBrands = [];
+            $('#brand-select option:selected').each(function() {
+              selectedBrands.push($(this).val());
+            });
+
+            // Enviar los valores seleccionados al servidor Flask mediante una solicitud AJAX
+            $.ajax({
+              url: "{{ url_for('get_brands') }}",
+              type: "POST",
+              contentType: "application/json",
+              data: JSON.stringify(selectedBrands),
+              success: function(response) {
+                // Manejar la respuesta del servidor aquí si es necesario
+              },
+              error: function(error) {
+                // Manejar errores aquí si es necesario
+              }
+            });
+          });
+      });
+      
     </script>
 </body>
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import csv
 import heapq
 import graphviz as gv
@@ -7,6 +7,8 @@ import base64
 import tempfile
 
 app = Flask(__name__)
+
+selected_brands = []
 
 class Product:
     def __init__(self, id, name, quantity, brand, category, price, url):
@@ -57,7 +59,7 @@ class Graph():
     def get_edges(self):
         return self.edges
 
-    def get_shortest_edges(self, start_node_name, count=4):
+    def get_shortest_edges(self, start_node_name, count=10):
         start_node = None
         for node in self.nodes.values():
           if node.name == start_node_name:
@@ -122,10 +124,11 @@ def index():
     # Obtener el texto de búsqueda de la solicitud
     query = request.args.get('query', '')
 
-    # Obtener los productos filtrados según el texto de búsqueda
-    productos_filtrados = filter_products(graph, query)
+    # Obtener los valores de las marcas seleccionadas
 
-    return render_template('index.html', productos=productos_filtrados)
+    # Obtener los productos filtrados según el texto de búsqueda
+    productos_filtrados, brands = filter_products(graph, query)
+    return render_template('index.html', productos=productos_filtrados, brands=brands)
 
 
 def build_graph_from_csv(csv_filename):
@@ -178,10 +181,14 @@ def add_edges(graph):
 
 def filter_products(graph, query):
     productos = []
+    brands = set()  # Conjunto para almacenar marcas
+
     with open('csv_Products.csv', 'r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter='@')
         for row in csv_reader:
             productos.append(row)
+            brand = row[3]
+            brands.add(brand)  # Agregar marca al conjunto
 
     productos_filtrados = []
     if query:
@@ -191,7 +198,7 @@ def filter_products(graph, query):
     else:
         productos_filtrados = productos
 
-    return productos_filtrados
+    return productos_filtrados, brands  # Devolver productos filtrados y marcas
 
 def print_graph(start_node, recommended_nodes):
     # Crear un objeto Digraph
@@ -220,16 +227,26 @@ def print_graph(start_node, recommended_nodes):
 
 @app.route('/recomendacion/<producto_id>')
 def recomendacion(producto_id):
+    global selected_brands
     graph = build_graph_from_csv('csv_Products.csv')
     producto_seleccionado = get_producto_por_id(producto_id)
+    
 
     if producto_seleccionado:
-        shortest_edges = graph.get_shortest_edges(producto_seleccionado.name, count=4)
+        shortest_edges = graph.get_shortest_edges(producto_seleccionado.name, count=10)
         recomendaciones = []
-        print(shortest_edges)
+
         for node, distance in shortest_edges:
-            recomendaciones.append((node.get_id(), node.get_name(), node.get_quantity(), node.get_brand(), node.get_category(), node.get_price(), node.get_url(), distance))
-        
+            if node.get_brand() not in selected_brands:
+                recomendaciones.append((node.get_id(), node.get_name(), node.get_quantity(), node.get_brand(), node.get_category(), node.get_price(), node.get_url(), distance))
+
+        # Ordenar las recomendaciones por precio utilizando Bubble Sort
+        n = len(recomendaciones)
+        for i in range(n - 1):
+            for j in range(n - i - 1):
+                if recomendaciones[j][5] > recomendaciones[j + 1][5]:
+                    recomendaciones[j], recomendaciones[j + 1] = recomendaciones[j + 1], recomendaciones[j]
+
         graph_data = print_graph(producto_seleccionado, recomendaciones)
 
         return render_template('recomendation.html', producto_seleccionado=producto_seleccionado, recomendaciones=recomendaciones, graph_data=graph_data)
@@ -251,6 +268,13 @@ def get_producto_por_id(producto_id):
                     url = line[6]
                     return Product(id, name, quantity, brand, category, price, url)
     return None
+
+@app.route('/get_brands', methods=['POST'])
+def get_brands():
+    global selected_brands  # Acceder a la variable global
+
+    selected_brands = request.get_json()  # Obtener los datos enviados en el cuerpo de la solicitud como JSON
+    return jsonify({'brands': selected_brands})
 
 
 if __name__ == '__main__':
