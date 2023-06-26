@@ -8,16 +8,35 @@
     <h1>Producto Seleccionado:</h1>
  
     <div class="contenedor">
-
-        <div>
-
+        <div class="producto-seleccionado">
             <img src="{{ producto_seleccionado.url }}" >
-            <h2>{{ producto_seleccionado.name }}</h2>
-            <p>Código: {{ producto_seleccionado.id }}</p>
-            <p>Precio: {{ producto_seleccionado.price }}</p>
+            <div class="especificaciones">
+                <h3>Especificaciones</h3>
+                <hr>
+                <div class="especificacion">
+                    <span>Precio:</span>
+                    <span>{{ producto_seleccionado.price }}</span>
+                </div>
+                <div class="especificacion">
+                    <span>Cantidad:</span>
+                    <span>{{ producto_seleccionado.quantity }}</span>
+                </div>
+                <div class="especificacion">
+                    <span>Categoria:</span>
+                    <span>{{ producto_seleccionado.category }}</span>
+                </div>
+                <div class="especificacion">
+                    <span>Marca:</span>
+                    <span>{{ producto_seleccionado.brand }}</span>
+                </div>
+                <div class="especificacion">
+                    <span>Código:</span>
+                    <span>{{ producto_seleccionado.id }}</span>
+                </div>
+            </div>
         </div>
     </div>
-    <h2>Recomendaciones:</h2>
+    <h2 class="recomendaciones">Recomendaciones:</h2>
     <ul>
         <div class="card-container">
             {% for recomendacion in recomendaciones %}
@@ -30,7 +49,9 @@
             {% endfor %}
         </div>
     </ul>
+    <h1>Grafo de los productos recomendados</h1>
     <div class="contenedor-grafico">
+        
         <img src="data:image/png;base64,{{ graph_data }}" alt="Graph">
     </div>
 </body>
