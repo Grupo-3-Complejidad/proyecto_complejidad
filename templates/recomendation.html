@@ -2,18 +2,21 @@
 <html>
 <head>
     <title>Recomendación</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='recomendaciones_style.css') }}">
 </head>
 <body>
     <h1>Producto Seleccionado:</h1>
-    <div>
-        <h3>{{ producto_seleccionado.name }}</h3>
-        <img src="{{ producto_seleccionado.url }}" >
-                <p>Código: {{ producto_seleccionado.id }}</p>
-                <p>Precio: {{ producto_seleccionado.price }}</p>
-        <!-- Mostrar los detalles del producto seleccionado -->
-    </div>
+ 
+    <div class="contenedor">
 
+        <div>
+
+            <img src="{{ producto_seleccionado.url }}" >
+            <h2>{{ producto_seleccionado.name }}</h2>
+            <p>Código: {{ producto_seleccionado.id }}</p>
+            <p>Precio: {{ producto_seleccionado.price }}</p>
+        </div>
+    </div>
     <h2>Recomendaciones:</h2>
     <ul>
         <div class="card-container">
@@ -27,7 +30,7 @@
             {% endfor %}
         </div>
     </ul>
-    <div>
+    <div class="contenedor-grafico">
         <img src="data:image/png;base64,{{ graph_data }}" alt="Graph">
     </div>
 </body>
