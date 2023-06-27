@@ -114,9 +114,12 @@ class Graph():
                 shortest_edges.append((node, distance))
 
           return shortest_edges 
-
-
 @app.route('/')
+def main():
+    return render_template('main.html')
+
+
+@app.route('/index')
 def index():
     # Leer los datos del archivo CSV y construir el grafo
     graph = build_graph_from_csv('csv_Products.csv')

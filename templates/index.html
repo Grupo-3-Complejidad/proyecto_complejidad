@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Mi primera aplicación Flask</title>
+    <title>Shopstra</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,11 +12,18 @@
       <div class="sidebar">
         <div class="logo-details">
           <i class="bx bxl-c-plus-plus icon"></i>
-          <div class="logo_name">CodingLab</div>
+          <div class="logo_name">Shopstra</div>
           <i class="bx bx-menu" id="btn"></i>
         </div>
         <ul class="nav-list">
-           <li>
+          <li>
+            <a href="#" class="category-link" data-category="Aseo de hogar">
+              <i class="bx bx-spa"></i>
+              <span class="links_name">Aseo de hogar</span>
+            </a>
+            <span class="tooltip">Aseo de hogar</span>
+          </li>
+          <li>
             <a href="#" class="category-link" data-category="Bebidas">
               <i class="bx bx-coffee-togo"></i>
               <span class="links_name">Bebidas</span>
@@ -31,39 +38,34 @@
             <span class="tooltip">Belleza</span>
           </li>
           <li>
-            <a href="#" class="category-link" data-category="Charcuteria">
-              <i class="bx bx-dish"></i>
-              <span class="links_name">Charcuteria</span>
-            </a>
-            <span class="tooltip">Charcuteria</span>
-          </li>
-          <li>
-            <a href="#" class="category-link" data-category="Ropa y Calzado">
-              <i class="bx bx-gift"></i>
-              <span class="links_name">Ropa y Calzado</span>
-            </a>
-            <span class="tooltip">Ropa y Calzado</span>
-          </li>
-          <li>
-            <a href="#" class="category-link" data-category="Ciudado Personal">
+            <a href="#" class="category-link" data-category="Cuidado Personal">
               <i class="bx bx-diamond"></i>
-              <span class="links_name">Ciudado Personal</span>
+              <span class="links_name">Cuidado Personal</span>
             </a>
-            <span class="tooltip">Ciudado Personal</span>
+            <span class="tooltip">Cuidado Personal</span>
           </li>
           <li>
-            <a href="#" class="category-link" data-category="Lacteos y refrigerados">
-              <i class="bx bx-vial"></i>
-              <span class="links_name">Lacteos y refrigerados</span>
+            <a href="#" class="category-link" data-category="Despensa">
+              <i class="bx bx-dock-top"></i>
+              <span class="links_name">Despensa</span>
             </a>
-            <span class="tooltip">Lacteos y refrigerados</span>
+            <span class="tooltip">Despensa</span>
           </li>
+          
           <li>
-            <a href="#" class="category-link" data-category="Panaderia">
-              <i class="bx bx-baguette"></i>
-              <span class="links_name">Panaderia</span>
+            <a href="#" class="category-link" data-category="Dulces y Postres">
+              <i class="bx bx-cookie"></i>
+              <span class="links_name">Dulces y Postres</span>
             </a>
-            <span class="tooltip">Panaderia</span>
+            <span class="tooltip">Dulces y Postres</span>
+          </li>
+
+          <li>
+            <a href="#" class="category-link" data-category="Limpieza de cocina">
+              <i class="bx bx-water"></i>
+              <span class="links_name">Limpieza de cocina</span>
+            </a>
+            <span class="tooltip">Limpieza de cocina</span>
           </li>
           <li>
             <a href="#" class="category-link" data-category="Vinos y Licores">
@@ -74,7 +76,7 @@
           </li>
           <li>
             <a href="#" class="category-link" data-category="Todos">
-              <i class="bx bx-drink"></i>
+              <i class="bx bx-grid"></i>
               <span class="links_name">Todos</span>
             </a>
             <span class="tooltip">Todos</span>
@@ -96,10 +98,12 @@
                   <option value="{{ brand }}">{{ brand }}</option>
                   {% endfor %}
               </select>
-              <button id="submit-button">Guardar Restricciones</button>
+              <button id="submit-button" class="main_button">Guardar Restricciones</button>
           </div>
             <!-- Contenido principal de tu aplicación -->
-            <h1>Bienvenido a mi aplicación Flask</h1>
+            <br>
+            <h1 style="text-align: center; font-size:35px;">Productos</h1>
+            <br>
         
             <div class="card-container">
                 {% for producto in productos %}
@@ -107,7 +111,7 @@
                     <img src="{{ producto[6] }}" alt="{{ producto[1] }}">
                     <h3>{{ producto[1] }}</h3>
                     <p>Código: {{ producto[0] }}</p>
-                    <p>Precio: {{ producto[2] }}</p>
+                    <p>Precio: {{ producto[5] }}</p>
                     <a href="{{ url_for('recomendacion', producto_id=producto[0]) }}">Ver más</a>
                     <!-- Agrega más campos de datos según sea necesario -->
                 </div>
