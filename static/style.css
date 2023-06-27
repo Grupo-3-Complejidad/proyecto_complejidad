@@ -347,8 +347,12 @@
 }
 
 .input-container1{
-  background-color: #ffffff;
-  color: #fe9340;
-  font-weight: 500;
-  font-size: 15px;
+  display: inline-block;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh; /* Ajusta esto según tus necesidades */
 }

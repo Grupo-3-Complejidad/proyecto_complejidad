@@ -91,14 +91,16 @@
                 <i class="bx bx-search"></i>
                 <input type="text" id="search-input" placeholder="Search..." />
             </div>  
-            <div class="input-container1">
-              <select name="brand" id="brand-select" multiple>
-                  <option value="">Todas las marcas</option>
-                  {% for brand in brands %}
-                  <option value="{{ brand }}">{{ brand }}</option>
-                  {% endfor %}
-              </select>
-              <button id="submit-button" class="main_button">Guardar Restricciones</button>
+            <div class="center-container">
+              <div class="input-container1">
+                  <select name="brand" id="brand-select" multiple>
+                      <option value="">Todas las marcas</option>
+                      {% for brand in brands %}
+                      <option value="{{ brand }}">{{ brand }}</option>
+                      {% endfor %}
+                  </select>
+                  <button id="submit-button" class="main_button">Guardar Restricciones</button>
+              </div>
           </div>
             <!-- Contenido principal de tu aplicación -->
             <br>
